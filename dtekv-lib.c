@@ -1,7 +1,19 @@
+//dtekv-lib.c
 #include "dtekv-lib.h"
 
 #define JTAG_UART ((volatile unsigned int*) 0x04000040)
 #define JTAG_CTRL ((volatile unsigned int*) 0x04000044)
+
+void uart_putchar(unsigned char c) {
+    while (((*JTAG_CTRL) & 0xFFFF0000) == 0);  // vänta tills ledig
+    *JTAG_UART = c;
+}
+
+int uart_getchar(void) {
+    if (((*JTAG_CTRL) & 0x0000FFFF) == 0)
+        return -1; // inget att läsa
+    return *JTAG_UART;
+}
 
 void printc(char s)
 {
@@ -9,7 +21,7 @@ void printc(char s)
     *JTAG_UART = s;
 }
 
-void print(char *s)
+void print(const char *s)
 {  
   while (*s != '\0') {    
       printc(*s);

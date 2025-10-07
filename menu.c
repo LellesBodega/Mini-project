@@ -1,5 +1,6 @@
 // menu.c
 #include "menu.h"
+#include "main.h"
 #include "dtekv-lib.h" // för print/debug
 
 // Meny med standardvärden
@@ -12,29 +13,29 @@ void menu_init(menu_state_t* state) {
     state->reset = 0;
 }
 
-// Uppdatera meny baserat på toggles och knapp
-// toggles[0-1]=kernel, toggles[2]=size, toggles[3]=run_mode, btn=action
+// Uppdatera meny baserat på switches och knapp
+// switches[0-1]=kernel, switches[2]=size, switches[3]=run_mode, btn=action
 
-void menu_update(menu_state_t* state, int toggles, int btn) {
-    // Kernelval: toggles 0-1 (två bitar)
-    state->kernel_selected = (kernel_type_t)(toggles & 0x3);
+void menu_update(menu_state_t* state, int switches, int btn) {
+    // Kernelval: switches 0-1 (två bitar)
+    state->kernel_selected = (kernel_type_t)(switches & 0x3);
 
-    // Kernelstorlek: toggle 2 (0=3x3, 1=5x5)
-    state->kernel_size = (toggles & 0x4) ? 5 : 3;   // (toggles & 0x4) ? 5 : 3; betyder: 
+    // Kernelstorlek: switches 2 (0=3x3, 1=5x5)
+    state->kernel_size = (switches & 0x4) ? 5 : 3;   // (switches & 0x4) ? 5 : 3; betyder: 
                                                     // Om toggle 2 värde är satt till 1, dvs nedtryckt, så blir kernel_size 5.
                                                     // Om toggle 2 värde är satt till 0, dvs INTE nedtryckt, så blir kernel_size 3.
 
-    // Run mode: toggle 3 (0=single, 1=chain)
-    state->run_mode = (toggles & 0x8) ? 1 : 0;
+    // Run mode: switches 3 (0=single, 1=chain)
+    state->run_mode = (switches & 0x8) ? 1 : 0;
 
-    // Upload: toggle 4 (håll nere för upload)
-    state->upload = (toggles & 0x10) ? 1 : 0;
+    // Upload: switches 4 (håll nere för upload)
+    state->upload = (switches & 0x10) ? 1 : 0;
 
-    // Download: toggle 5 (håll nere för download)
-    state->download = (toggles & 0x20) ? 1 : 0;
+    // Download: switches 5 (håll nere för download)
+    state->download = (switches & 0x20) ? 1 : 0;
 
-    // Reset: toggle 6 (håll nere för reset)
-    state->reset = (toggles & 0x40) ? 1 : 0;
+    // Reset: switches 6 (håll nere för reset)
+    state->reset = (switches & 0x40) ? 1 : 0;
 
     // Använda btn för att "bekräfta" val? eller starta bearbetning?
     // Typ om btn trycks och upload är valt, trigga upload

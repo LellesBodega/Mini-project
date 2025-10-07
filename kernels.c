@@ -1,5 +1,7 @@
 // kernels.c
 #include "kernels.h"
+#include "menu.h"
+#include <stddef.h>
 
 // (3x3) och (5x5) områden
 
@@ -83,6 +85,42 @@ const int sharpen_5x5[5][5] = {
     {  0,  0, -1,  0,  0 }
 };
 
+const int* get_selected_kernel(const menu_state_t* menu, int* divisor) {
+    if (menu->kernel_size == KERNEL_SIZE_3) {
+        switch (menu->kernel_selected) {
+            case KERNEL_EDGE:
+                *divisor = 1; // Edge detection behöver ingen normalisering
+                return (const int*)edge_3x3;
+            case KERNEL_BOXBLUR:
+                *divisor = 9; // Box blur 3x3
+                return (const int*)boxblur_3x3;
+            case KERNEL_GAUSSIAN:
+                *divisor = 16; // Gaussian blur 3x3
+                return (const int*)gaussian_3x3;
+            case KERNEL_SHARPEN:
+                *divisor = 1; // Sharpen behöver ingen normalisering
+                return (const int*)sharpen_3x3;
+        }
+    } else if (menu->kernel_size == KERNEL_SIZE_5) {
+        switch (menu->kernel_selected) {
+            case KERNEL_EDGE:
+                *divisor = 1; // Edge detection behöver ingen normalisering
+                return (const int*)edge_5x5;
+            case KERNEL_BOXBLUR:
+                *divisor = 25; // Box blur 5x5
+                return (const int*)boxblur_5x5;
+            case KERNEL_GAUSSIAN:
+                *divisor = 256; // Gaussian blur 5x5
+                return (const int*)gaussian_5x5;
+            case KERNEL_SHARPEN:
+                *divisor = 1; // Sharpen behöver ingen normalisering
+                return (const int*)sharpen_5x5;
+        }
+    }
+    // Fallback, bör inte nås
+    *divisor = 1;
+    return NULL;
+}
 /*
  * Funktion: convolve
  * ------------------
@@ -100,11 +138,11 @@ const int sharpen_5x5[5][5] = {
  */
 void convolve(const unsigned char* input, unsigned char* output, int width, int height, const int* kernel, int ksize, int divisor, int offset) {
     int kcenter = ksize / 2;
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             int acc = 0;
-            for (int ky = 0; ky < ksize; ++ky) {
-                for (int kx = 0; kx < ksize; ++kx) {
+            for (int ky = 0; ky < ksize; ky++) {
+                for (int kx = 0; kx < ksize; kx++) {
                     int ix = x + kx - kcenter;
                     int iy = y + ky - kcenter;
                     // Kontrollera att vi är inom bildens gränser
