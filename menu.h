@@ -1,3 +1,4 @@
+// Jacob & Yannsze
 // menu.h
 #ifndef MENU_H
 #define MENU_H
@@ -8,10 +9,10 @@
 typedef struct menu_state_t {
     kernel_type_t kernel_selected; // 0-3
     int kernel_size;               // 3 eller 5
-    int run_mode;                  // 0 = single, 1 = chain
-    int upload;                    // 1 = upload image
-    int download;                  // 1 = download image
+    int run_mode;                  // 1 = Process image, 0 = idle
     int reset;                     // 1 = reset
+    int chain_mode;                // 1 = Chain mode är aktivt
+
 } menu_state_t;
 
 // Initiera meny

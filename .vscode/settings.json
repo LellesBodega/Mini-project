@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "menu.h": "c"
+        "menu.h": "c",
+        "newmain.h": "c",
+        "stdio.h": "c"
     }
 }

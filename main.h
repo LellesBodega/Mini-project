@@ -1,8 +1,10 @@
+// Yannsze
+//main.h
 #ifndef MAIN_H
 #define MAIN_H
 
-#define IMG_WIDTH 64
-#define IMG_HEIGHT 64
+#define IMG_WIDTH 256
+#define IMG_HEIGHT 256
 
 // Hardware Registers mapping
 // Timer Registers
@@ -30,8 +32,8 @@ int get_btn(void);
 void uart_putchar(unsigned char c);
 int uart_getchar(void);
 
-extern unsigned char input_img[IMG_WIDTH * IMG_HEIGHT];
-extern unsigned char output_img[IMG_WIDTH * IMG_HEIGHT];
+extern unsigned char input_img[IMG_WIDTH][IMG_HEIGHT];
+extern unsigned char output_img[IMG_WIDTH][IMG_HEIGHT];
 extern int mytime;
 extern char textstring[];
 extern int prime;

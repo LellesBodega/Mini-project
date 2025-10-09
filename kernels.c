@@ -1,4 +1,7 @@
+// Jacob created the function of kernels through pseoducode from Wiki
+
 // kernels.c
+#include "dtekv-lib.h"
 #include "kernels.h"
 #include "menu.h"
 #include <stddef.h>
@@ -86,6 +89,13 @@ const int sharpen_5x5[5][5] = {
 };
 
 const int* get_selected_kernel(const menu_state_t* menu, int* divisor) {
+    // 🔍 Debugutskrift för att se vilket kernel som valts via switchar
+    print("Kernel select: ");
+    print_dec(menu->kernel_selected);
+    print("  size=");
+    print_dec(menu->kernel_size);
+    print("\n");
+    
     if (menu->kernel_size == KERNEL_SIZE_3) {
         switch (menu->kernel_selected) {
             case KERNEL_EDGE:
@@ -137,6 +147,7 @@ const int* get_selected_kernel(const menu_state_t* menu, int* divisor) {
  * Resultatet normaliseras och klipps till [0,255].
  */
 void convolve(const unsigned char* input, unsigned char* output, int width, int height, const int* kernel, int ksize, int divisor, int offset) {
+     print("Convolve started\n");
     int kcenter = ksize / 2;
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
@@ -157,4 +168,5 @@ void convolve(const unsigned char* input, unsigned char* output, int width, int 
             output[y * width + x] = (unsigned char)acc;
         }
     }
+    print("Convolve done\n");
 }
