@@ -46,5 +46,6 @@ This project is maintained by:
 - Artur Podobas
 - Wiktor Szczerek
 - Pedro Antunes
+- Lelle
 
 If you would like to contribute, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for guidelines on how to get involved.
