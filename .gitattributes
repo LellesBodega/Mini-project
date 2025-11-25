@@ -1,2 +1,15 @@
-# Auto detect text files and perform LF normalization
 * text=auto
+*.c text
+*.h text
+*.S text
+*.py text
+*.raw binary
+*.bin binary
+*.elf binary
+*.o binary
+*.txt text
+*.lds text
+Makefile text
+README.md text
+COPYING text
+readme.txt text

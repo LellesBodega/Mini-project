@@ -1,12 +1,11 @@
-SRC_DIR ?= ./
-OBJ_DIR ?= ./
+SRC_DIR ?= ./src
+OBJ_DIR ?= ./obj
 SOURCES ?= $(shell find $(SRC_DIR) -name '*.c' -or -name '*.S')
 OBJECTS ?= $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 LINKER ?= $(SRC_DIR)/dtekv-script.lds
 
 TOOLCHAIN ?= riscv32-unknown-elf-
 CFLAGS ?= -Wall -nostdlib -O3 -mabi=ilp32 -march=rv32imzicsr -fno-builtin
-
 
 build: clean main.bin
 
@@ -19,7 +18,7 @@ main.bin: main.elf
 	$(TOOLCHAIN)objdump -D $< > $<.txt
 
 clean:
-	rm -f *.o *.elf *.bin *.txt
+	rm -f $(OBJ_DIR)/*.o *.elf *.bin *.txt
 
 TOOL_DIR ?= ./tools
 run: main.bin
